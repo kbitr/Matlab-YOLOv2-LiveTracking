@@ -34,7 +34,7 @@ detection_info** yolomex_file(char *filename, float thresh, float hier_thresh, i
 {
     /* check init */
     if (!g_handle){mexErrMsgTxt("Run 'yolomex('init',datacfg,cfgfile,weightfile);' first.");}
-    
+
      /* check existance of files */
     if( access( filename, F_OK ) == -1 ) {
         //printf("File %s\n not found", filename);
@@ -53,7 +53,7 @@ detection_info** yolomex_detect(unsigned char *data, int w, int h, int c, float 
 {
     /* check init */
     if (!g_handle){mexErrMsgTxt("Run 'yolomex('init',datacfg,cfgfile,weightfile);' first.");}
-    
+
     int i,j,k;
     image im = make_image(w, h, c);
     for(k = 0; k < c; ++k){
@@ -68,9 +68,9 @@ detection_info** yolomex_detect(unsigned char *data, int w, int h, int c, float 
 
     *num = 0;
     detection_info **info = yolo_detect(g_handle, im, thresh, hier_thresh, num);
-    
+
     free_image(im);
-    
+
     if (info == NULL) {mexErrMsgTxt("Something went wrong in yolo_detect C-function");}
     return info;
 }
@@ -127,7 +127,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         /* Check variables */
         if(nrhs!=4){mexErrMsgTxt("Init parameters: string datacfg, string cfgfile, string weightfile");}
         if ( mxIsChar(prhs[1]) != 1 || mxIsChar(prhs[2]) != 1 || mxIsChar(prhs[3]) != 1){mexErrMsgTxt("Init parameters: string datacfg, string cfgfile, string weightfile");}
-        
+
         /* copy the string data from prhs[1-3] into a C string */
         char *datacfg = mxArrayToString(prhs[1]);
         char *cfgfile = mxArrayToString(prhs[2]);
@@ -139,7 +139,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         /* Check variables */
         if(nrhs!=4){mexErrMsgTxt("Init parameters: string namefile, string cfgfile, string weightfile");}
         if ( mxIsChar(prhs[1]) != 1 || mxIsChar(prhs[2]) != 1 || mxIsChar(prhs[3]) != 1){mexErrMsgTxt("Init parameters: string namefile, string cfgfile, string weightfile");}
-        
+
         /* copy the string data from prhs[1-3] into a C string */
         char *datacfg = mxArrayToString(prhs[1]);
         char *cfgfile = mxArrayToString(prhs[2]);
@@ -158,14 +158,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         if(nrhs != 4){mexErrMsgTxt("Test parameters: string filename, double thresh, double hier_thresh");}
         if(nlhs != 1) {mexErrMsgTxt("One output required for test method");}
         if ( mxIsChar(prhs[1]) != 1 || mxIsDouble(prhs[2]) != 1 || mxIsDouble(prhs[3]) != 1){mexErrMsgTxt("Test parameters: string filename, double thresh, double hier_thresh");}  /* copy the string data from prhs[1] into a C string */
-       
+
         /* parse filename */
         char *filename = mxArrayToString(prhs[1]);
         /* get numeric parameters */
-        float thresh = (float)mxGetScalar(prhs[2]);        
-        float hier_thresh = (float)mxGetScalar(prhs[3]);  
+        float thresh = (float)mxGetScalar(prhs[2]);
+        float hier_thresh = (float)mxGetScalar(prhs[3]);
         /* run */
-        int num;      
+        int num;
         detection_info** info = yolomex_file(filename, thresh, hier_thresh, &num);
 
         /* copy result to a Matlab struct for returning */
@@ -176,10 +176,10 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         if(nrhs != 4){mexErrMsgTxt("Detect parameters: uint8 matrix (image), double thresh, double hier_thresh");}
         if(nlhs != 1) {mexErrMsgTxt("One output required for detect method");}
         if ( mxIsUint8(prhs[1]) != 1 || mxIsDouble(prhs[2]) != 1 || mxIsDouble(prhs[3]) != 1){mexErrMsgTxt("Detect parameters: uint8 matrix (image), double thresh, double hier_thresh");}
-       
+
         /* Get image */
-        imageData = (unsigned char*)mxGetData(prhs[1]);        
-        numDimsImg = mxGetNumberOfDimensions(prhs[1]);    
+        imageData = (unsigned char*)mxGetData(prhs[1]);
+        numDimsImg = mxGetNumberOfDimensions(prhs[1]);
         sizeImg = mxGetDimensions(prhs[1]);
 
         if (numDimsImg != 3){mexErrMsgTxt("Image is not RGB (n x m x 3)");}
@@ -187,18 +187,18 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         h = sizeImg[0];
         w = sizeImg[1];
         c = sizeImg[2];
-  
+
         /* get numeric parameters */
-        float thresh = (float)mxGetScalar(prhs[2]);        
-        float hier_thresh = (float)mxGetScalar(prhs[3]);  
+        float thresh = (float)mxGetScalar(prhs[2]);
+        float hier_thresh = (float)mxGetScalar(prhs[3]);
 
         /* run */
-        int num;      
+        int num;
         detection_info** info = yolomex_detect(imageData, w, h, c, thresh, hier_thresh, &num);
 
         /* copy result to a Matlab struct for returning */
         infoToMatlabStruct(info, num, plhs);
     }
     else {mexErrMsgTxt("First input should specify method");}
-    return;    
+    return;
 }

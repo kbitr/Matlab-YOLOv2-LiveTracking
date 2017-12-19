@@ -22,7 +22,7 @@ toc;
 for i = 1:size(vertcat(ddts.left))
     bbs = [ddts(i).left ddts(i).top ddts(i).right-ddts(i).left ddts(i).bottom-ddts(i).top];
     frame = insertShape(frame, 'FilledRectangle', bbs, 'Color',[158, 255, 158], 'Opacity',0.35);
-    frame = insertObjectAnnotation(frame, 'rectangle', bbs, ddts(i).class, 'Color','yellow', 'LineWidth',1);    
+    frame = insertObjectAnnotation(frame, 'rectangle', bbs, ddts(i).class, 'Color','yellow', 'LineWidth',1);
 end
 imshow(frame);
 %% Cleanup

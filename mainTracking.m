@@ -48,7 +48,7 @@ while runLoop
     trk = createNewTracks(trk, unassignedDetections, centers, bboxes, scores, id); id = id + 1;
     timer(j,:) = toc; j = j+1;
     displayResults(vPlayer, frame, trk, tConfidence, tAge);
-    
+
     runLoop = isOpen(vPlayer);
 end
 release(vPlayer);

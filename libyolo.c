@@ -48,7 +48,7 @@ yolo_handle yolo_init(char *datacfg, char *cfgfile, char *weightfile, int initMo
     yolo_obj *obj = (yolo_obj *)malloc(sizeof(yolo_obj));
     if (!obj) return NULL;
     memset(obj, 0, sizeof(yolo_obj));
- 
+
     if(initMode==0){
         chdir("./darknet");
         list *options = read_data_cfg(datacfg);
@@ -56,20 +56,20 @@ yolo_handle yolo_init(char *datacfg, char *cfgfile, char *weightfile, int initMo
         obj->names = get_labels(name_list);
     }
     else { obj->names = get_labels(datacfg); }
-    
+
     obj->net = parse_network_cfg(cfgfile);
     if(weightfile){ load_weights(&obj->net, weightfile); }
     set_batch_network(&obj->net, 1);
     srand(time(0));
-    
+
     int j;
     obj->nms=.4;
-    
+
     layer l = obj->net.layers[obj->net.n-1];
     obj->boxes = calloc(l.w*l.h*l.n, sizeof(box));
     obj->probs = calloc(l.w*l.h*l.n, sizeof(float *));
     for(j = 0; j < l.w*l.h*l.n; ++j) obj->probs[j] = calloc(l.classes + 1, sizeof(float *));
-    
+
     return (yolo_handle)obj;
 }
 
