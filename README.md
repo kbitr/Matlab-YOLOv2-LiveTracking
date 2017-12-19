@@ -27,7 +27,7 @@ make
 
 #### CUDA:
 ```bash
-mex -I./darknet/include/ -I./darknet/src CFLAGS='-Wall -Wfatal-errors -Wno-unused-result -fPIC' -L. -lyolo -L/usr/local/cuda/lib64-lcudart -lcublas -lcurand yolomex.c
+mex -I./darknet/include/ -I./darknet/src CFLAGS='-Wall -Wfatal-errors -Wno-unused-result -fPIC' -L. -lyolo -L/usr/local/cuda/lib64 -lcudart -lcublas -lcurand yolomex.c
 ```
 #### CPU:
 ```bash

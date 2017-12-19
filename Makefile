@@ -1,5 +1,5 @@
 GPU=0
-OPENMP=1
+OPENMP=0
 DEBUG=0
 
 ARCH= -gencode arch=compute_30,code=sm_30 \
