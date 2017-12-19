@@ -26,7 +26,7 @@ global thresh;      thresh = 0.24; %display thresh
 global hier_thresh; hier_thresh = 0.5;
 datacfg = fullfile(pwd,'darknet/cfg/coco.data');
 cfgfile = fullfile(pwd,'darknet/cfg/tiny-yolo.cfg');
-weightfile = fullfile(pwd,'tiny-yolo-old.weights');
+weightfile = fullfile(pwd,'weights/tiny-yolo.weights');
 
 %%  Init
 trk = struct('id',{},'color',{},'bboxes',{},'scores',{},'kalmanFilter',{},'age',{},'totalVisibleCount',{},'confidence',{},'predPosition',{}); % Empty array

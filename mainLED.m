@@ -5,23 +5,24 @@ delete(instrfindall);
 clear all; clc;
 
 %% Parameters
-live = 1; % live or file mode
-serial = 0;
 
 % YOLO
 datacfg = fullfile(pwd,'darknet/cfg/coco.data');
-cfgfile = fullfile(pwd,'darknet/cfg/tiny-yolo.cfg'); %ALT: tiny_yolo.cfg
-weightfile = fullfile(pwd,'weights/tiny-yolo.weights'); %ALT: tiny_yolo.weights
+cfgfile = fullfile(pwd,'darknet/cfg/tiny-yolo.cfg'); %or: yolo.cfg
+weightfile = fullfile(pwd,'weights/tiny-yolo.weights'); %or: yolo.weights
 resizeRatio = 1;
 thresh = 0.24;
 hier_thresh = 0.5;
 
 % Display
-ansLED      = 10;
-drawBoxes   = 0;
-drawLED     = 1;
+live = 1; % live or file mode
+serial = 0;
+numFrame = 500; % Set start frame
+numLED      = 10;
+drawBoxes   = 1;
+drawLED     = 0;
 drawLines   = 0;
-serialLED   = 1;
+serialLED   = 0;
 
 %% Init
 % Serial
@@ -40,16 +41,15 @@ if live
     frame = snapshot(vidObj);
 else
     frame = imread(fullfile(pwd, 'images/img0.jpg'));
-    numFrame = 250; % Set start frame
 end
 frameSize = size(frame);
 
 % LED
 if drawLED
-    coord = zeros(ansLED-1:4);
-    x_coord = frameSize(2)/ansLED;
+    coord = zeros(numLED-1:4);
+    x_coord = frameSize(2)/numLED;
     y = frameSize(1);
-    for li = 1:ansLED-1
+    for li = 1:numLED-1
         coord(li,:) = [li*x_coord 0 li*x_coord y];
     end
 end
@@ -74,7 +74,7 @@ end
 %% Cleanup
 release(obj.videoPlayer);
 yolomex('cleanup');
-fscanf(serObj)
+if serial, fscanf(serObj); end
 delete(instrfindall);
 
 %% Display Results
@@ -91,9 +91,9 @@ delete(instrfindall);
                         frame = insertObjectAnnotation(frame, 'rectangle', bbs, ddts(i).class, 'Color','yellow', 'LineWidth',1);
                     end
                     if drawLED
-                        x_coord = frameSize(2)/ansLED;
-                        LED_left = round(ddts(i).left/frameSize(2)*ansLED);
-                        LED_right = round(ddts(i).right/frameSize(2)*ansLED);
+                        x_coord = frameSize(2)/numLED;
+                        LED_left = round(ddts(i).left/frameSize(2)*numLED);
+                        LED_right = round(ddts(i).right/frameSize(2)*numLED);
                         LED_range = LED_right - LED_left;
                         frame = insertShape(frame, 'FilledRectangle', [LED_left*x_coord, 0, LED_range*x_coord, frameSize(1)], 'Color','green', 'Opacity',0.2);
                         if serialLED
