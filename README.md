@@ -5,7 +5,7 @@ YOLOv2 for Matlab is a fork of the Matlab MEX wrapper Yolomex by Ignacio Rocco w
 
 - This is using the original darknet framework, so it's meant to run on Unix (OSX/Linux).
 - openMP is not included into gcc in OSX - you can still use your own compiler.
-- Don't be stupid and change paths, if you're using different versions!
+- Don't be stupid: change paths, if you're using different versions!
 
 # Install
 ## 0. Clone
