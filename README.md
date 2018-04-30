@@ -52,6 +52,6 @@ mex -setup:'~/Library/Application Support/MathWorks/MATLAB/R2017b/clang_openmp_m
 ```
 
 # Your Matlab crashes when using CUDA?
-That happens when your GPU is running out of memory, since Matlab isn't aware of the memory usage. You should reduce the in the _batch_ vaulue _.cfg_-file to a lower multiple of 32. (But other values work as well.)
+That happens when your GPU is running out of memory, since Matlab isn't aware of the memory usage. You should reduce the the _batch_ value _.cfg_-file to a lower multiple of 32. (But other values work as well.)
 
 By the way, for speeding up the detection you can reduce the _width_ and _height_.
