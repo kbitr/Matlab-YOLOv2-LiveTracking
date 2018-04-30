@@ -1,7 +1,7 @@
 # YOLOv2 for MatLab
 YOLOv2 for Matlab is a fork of the Matlab MEX wrapper Yolomex by Ignacio Rocco with Matlab demos for LED control and people tracking.
 
-![screenshot](https://raw.githubusercontent.com/kbitr/matlab-yolov2/master/screenshot.jpg)
+![screenshot](https://raw.githubusercontent.com/kbitr/Matlab-YOLOv2-LiveTracking/master/screenshot.jpg)
 
 - This is using the original darknet framework, so it's meant to run on Unix (OSX/Linux).
 - openMP is not included into gcc in OSX - you can still use your own compiler.
